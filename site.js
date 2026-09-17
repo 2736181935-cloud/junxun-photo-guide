@@ -67,6 +67,36 @@ function ruleCard(rule) {
   return card;
 }
 
+function commentCard(item) {
+  const card = element("article", "rule-card comment-card");
+  const top = element("div", "card-top");
+  top.append(element("span", "rule-id", item.id));
+  top.append(element("span", "level", item.category_name));
+  card.append(top, element("h3", "", item.title), element("p", "", item.comment));
+  card.append(element("div", "rule-condition", `场景：${item.scene || "未填写"} · 环节：${item.stage || "自动判断"}`));
+  card.append(element("div", "rule-source", `编码：${(item.related_rules || []).join(" · ") || "待分类"} · 来源：${item.source}`));
+  return card;
+}
+
+async function loadComments() {
+  const container = document.querySelector("#comment-list");
+  try {
+    const response = await fetch("comments.json", { cache: "no-cache" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const payload = await response.json();
+    if (!Array.isArray(payload.comments)) throw new Error("点评数据格式错误");
+    const comments = [...payload.comments].reverse();
+    document.querySelector("#comments-count").textContent = `已审核 ${comments.length} 条点评`;
+    container.replaceChildren();
+    if (!comments.length) container.append(element("p", "empty-note", "暂无已审核的新增点评。可先学习上方规则。"));
+    else for (const item of comments) container.append(commentCard(item));
+  } catch (error) {
+    document.querySelector("#comments-count").textContent = "点评载入失败";
+    container.replaceChildren(element("p", "empty-note", "点评数据暂时无法载入，请刷新页面重试。"));
+    console.error(error);
+  }
+}
+
 function setQuery(value) {
   document.querySelector("#search-input").value = value;
   activeCategory = "all";
@@ -217,6 +247,7 @@ function renderReview(issues) {
 }
 
 async function start() {
+  loadComments();
   try {
     const response = await fetch("rules.json", { cache: "no-cache" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);

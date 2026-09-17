@@ -19,6 +19,7 @@
     </a>
     <nav class="header-nav" aria-label="主导航">
       <a href="#explore">查规则</a>
+      <a href="#comments">指导员点评</a>
       <a href="#plan">拍摄清单</a>
       <a href="#review">交付检查</a>
     </nav>
@@ -82,8 +83,14 @@
       </div>
     </section>
 
+    <section class="section comments-section" id="comments" aria-labelledby="comments-title">
+      <div class="section-head"><span class="section-index">02 / FIELD NOTES</span><h2 id="comments-title">指导员点评</h2><p>新增点评经自动编码和人工审核后在这里更新。</p></div>
+      <div class="comments-toolbar"><span id="comments-count" aria-live="polite">正在载入点评…</span><a class="instructor-link" href="https://github.com/2736181935-cloud/junxun-photo-agent/issues/new?template=instructor-comment.yml" target="_blank" rel="noopener noreferrer">指导员录入入口（需授权） ↗</a></div>
+      <div id="comment-list" class="rule-list comments-list"></div>
+    </section>
+
     <section class="section plan-section" id="plan" aria-labelledby="plan-title">
-      <div class="section-head"><span class="section-index">02 / SHOT LIST</span><h2 id="plan-title">生成拍摄清单</h2><p>写下活动场景，获得通用步骤与相关提醒。</p></div>
+      <div class="section-head"><span class="section-index">03 / SHOT LIST</span><h2 id="plan-title">生成拍摄清单</h2><p>写下活动场景，获得通用步骤与相关提醒。</p></div>
       <form id="plan-form" class="plan-form">
         <label for="scene-input">我要拍摄</label>
         <div class="input-action"><input id="scene-input" name="scene" type="text" placeholder="例如：夜间队列训练、会议、拔河比赛" required><button class="button button-primary" type="submit">生成清单 <span aria-hidden="true">→</span></button></div>
@@ -92,7 +99,7 @@
     </section>
 
     <section class="section review-section" id="review" aria-labelledby="review-title">
-      <div class="section-head"><span class="section-index">03 / PRE-FLIGHT</span><h2 id="review-title">交付前检查</h2><p>根据你已核实的事实给出检查结果。本站不会读取或上传照片。</p></div>
+      <div class="section-head"><span class="section-index">04 / PRE-FLIGHT</span><h2 id="review-title">交付前检查</h2><p>根据你已核实的事实给出检查结果。本站不会读取或上传照片。</p></div>
       <div class="review-layout">
         <form id="review-form" class="review-form">
           <fieldset><legend>画面与信息</legend>
