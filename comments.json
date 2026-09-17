@@ -1,5 +1,22 @@
 {
   "version": "2026-09-17",
-  "comment_count": 0,
-  "comments": []
+  "comment_count": 1,
+  "comments": [
+    {
+      "id": "INS-2",
+      "title": "素材2导入：扇操方阵构图",
+      "scene": "扇操方阵大景别",
+      "comment": "素材来源：评论素材2.docx 第8段。主体方阵偏在画面右下角，视觉重心偏移，边缘还留有无关杂物。可调整机位，把方阵放到画面主要区域，并清理多余元素，让扇子队列成为视觉重点。",
+      "stage": "拍摄",
+      "category": "E",
+      "category_name": "构图与边界",
+      "related_rules": [
+        "E07",
+        "D06",
+        "E11"
+      ],
+      "source": "指导员点评 #2",
+      "submitted_at": "2026-09-17T10:35:09Z"
+    }
+  ]
 }
