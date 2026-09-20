@@ -7,6 +7,7 @@ const CATEGORY_NAMES = {
 };
 const UNIVERSAL_PLAN_IDS = ["A01", "A02", "A03", "A04", "F07", "H01", "H02", "I01", "I03", "I04"];
 const RULES_PER_PAGE = 12;
+const INSTRUCTOR_ISSUE_URL = "https://github.com/2736181935-cloud/junxun-photo-agent/issues/new";
 let rules = [];
 let activeCategory = "all";
 let visibleCount = RULES_PER_PAGE;
@@ -95,6 +96,49 @@ async function loadComments() {
     container.replaceChildren(element("p", "empty-note", "点评数据暂时无法载入，请刷新页面重试。"));
     console.error(error);
   }
+}
+
+function previewClassification() {
+  const form = document.querySelector("#instructor-form");
+  const scene = form.elements.namedItem("scene").value.trim();
+  const comment = form.elements.namedItem("comment").value.trim();
+  const stage = form.elements.namedItem("stage").value;
+  const query = `${scene} ${comment}`.trim();
+  const empty = document.querySelector("#classification-empty");
+  const result = document.querySelector("#classification-result");
+  if (!query || !rules.length) {
+    empty.hidden = false;
+    result.hidden = true;
+    return;
+  }
+  const ranked = rules.map(rule => ({ rule, score: scoreRule(rule, query) + (stage !== "自动判断" && rule.stage.includes(stage) ? 3 : 0) }))
+    .filter(item => item.score > 0)
+    .sort((a, b) => b.score - a.score || a.rule.id.localeCompare(b.rule.id))
+    .slice(0, 3);
+  const category = ranked.length ? ranked[0].rule.id[0] : "";
+  empty.hidden = true;
+  result.hidden = false;
+  document.querySelector("#classification-code").textContent = category || "?";
+  document.querySelector("#classification-name").textContent = CATEGORY_NAMES[category] || "待人工分类";
+  document.querySelector("#classification-rules").textContent = `可能关联：${ranked.map(item => `${item.rule.id} ${item.rule.title}`).join(" · ") || "暂无"}`;
+}
+
+function submitInstructorComment(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  if (!form.reportValidity()) return;
+  const scene = form.elements.namedItem("scene").value.trim();
+  const stage = form.elements.namedItem("stage").value;
+  const comment = form.elements.namedItem("comment").value.trim();
+  const parameters = new URLSearchParams({
+    template: "instructor-comment.yml",
+    title: `[指导员点评] ${scene}`,
+    scene,
+    stage,
+    comment,
+    public: "确认可公开学习",
+  });
+  window.open(`${INSTRUCTOR_ISSUE_URL}?${parameters.toString()}`, "_blank", "noopener,noreferrer");
 }
 
 function setQuery(value) {
@@ -275,6 +319,10 @@ async function start() {
     event.preventDefault();
     renderReview(evaluateSubmission(event.currentTarget));
   });
+  const instructorForm = document.querySelector("#instructor-form");
+  instructorForm.addEventListener("input", previewClassification);
+  instructorForm.addEventListener("change", previewClassification);
+  instructorForm.addEventListener("submit", submitInstructorComment);
 }
 
 document.addEventListener("DOMContentLoaded", start);

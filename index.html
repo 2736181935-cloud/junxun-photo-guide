@@ -19,7 +19,7 @@
     </a>
     <nav class="header-nav" aria-label="主导航">
       <a href="#explore">查规则</a>
-      <a href="#comments">指导员点评</a>
+      <a href="#instructor">指导员入口</a>
       <a href="#plan">拍摄清单</a>
       <a href="#review">交付检查</a>
     </nav>
@@ -83,14 +83,53 @@
       </div>
     </section>
 
+    <section class="section instructor-section" id="instructor" aria-labelledby="instructor-title">
+      <div class="section-head"><span class="section-index">02 / INSTRUCTOR</span><h2 id="instructor-title">指导员工作台</h2><p>在这里写点评，系统先分类，确认后再更新到学习端。</p></div>
+      <ol class="instructor-steps" aria-label="点评发布流程">
+        <li><b>1</b><span><strong>填写点评</strong><small>一条表单只写一个主要问题</small></span></li>
+        <li><b>2</b><span><strong>确认提交</strong><small>新页面中内容已填好，只需提交</small></span></li>
+        <li><b>3</b><span><strong>回复“发布”</strong><small>看完系统分类后，用两个字批准更新</small></span></li>
+      </ol>
+      <div class="instructor-layout">
+        <form id="instructor-form" class="instructor-form">
+          <div class="form-intro"><strong>新增一条指导点评</strong><span>无需填写编码，系统会自动建议。</span></div>
+          <label>这条点评讲什么场景？
+            <input name="scene" type="text" maxlength="200" placeholder="例如：扇操方阵、夜间训练、静物平铺" required>
+          </label>
+          <label>主要属于哪个环节？
+            <select name="stage">
+              <option>自动判断</option><option>策划</option><option>选题</option><option>拍摄</option><option>选片</option><option>后期</option><option>导出</option><option>交付</option><option>摄像</option>
+            </select>
+          </label>
+          <label>具体点评
+            <textarea name="comment" maxlength="5000" rows="6" placeholder="建议按“看到的问题＋建议做法”来写。例如：方阵偏在画面右下角，视觉重心偏移。可调整机位，把队列放到画面主要区域，并清理边缘杂物。" required></textarea>
+          </label>
+          <label class="publish-check"><input name="public" type="checkbox" required><span>我已检查，内容可以公开给宣传员学习，不含姓名、联系方式或敏感现场信息。</span></label>
+          <button class="button button-primary instructor-submit" type="submit">下一步：确认并提交 <span aria-hidden="true">→</span></button>
+          <p class="form-note">需要使用已获授权的 GitHub 账号。点击后会打开一页已填好的表单，检查无误后点击页面底部绿色按钮提交。</p>
+        </form>
+        <aside class="classification-preview" aria-live="polite">
+          <div class="aside-label">自动分类预览</div>
+          <div id="classification-empty" class="preview-empty">开始填写点评后，这里会显示可能的分类和关联规则。</div>
+          <div id="classification-result" hidden>
+            <span id="classification-code" class="preview-code">—</span>
+            <h3 id="classification-name">待判断</h3>
+            <p id="classification-rules">关联规则：—</p>
+            <small>这是提交前预览。后台会重新分类，最终仍由指导员确认。</small>
+          </div>
+          <div class="after-submit"><strong>提交后怎么办？</strong><p>等待系统回复分类结果。确认内容正确后，在页面最下方评论框输入<strong>发布</strong>并发送。之后系统会自动更新学习网站。</p></div>
+        </aside>
+      </div>
+    </section>
+
     <section class="section comments-section" id="comments" aria-labelledby="comments-title">
-      <div class="section-head"><span class="section-index">02 / FIELD NOTES</span><h2 id="comments-title">指导员点评</h2><p>新增点评经自动编码和人工审核后在这里更新。</p></div>
-      <div class="comments-toolbar"><span id="comments-count" aria-live="polite">正在载入点评…</span><a class="instructor-link" href="https://github.com/2736181935-cloud/junxun-photo-agent/issues/new?template=instructor-comment.yml" target="_blank" rel="noopener noreferrer">指导员录入入口（需授权） ↗</a></div>
+      <div class="section-head"><span class="section-index">03 / FIELD NOTES</span><h2 id="comments-title">已发布的指导员点评</h2><p>这里只显示指导员已经确认发布的内容。</p></div>
+      <div class="comments-toolbar"><span id="comments-count" aria-live="polite">正在载入点评…</span><a class="instructor-link" href="#instructor">新增一条点评 ↑</a></div>
       <div id="comment-list" class="rule-list comments-list"></div>
     </section>
 
     <section class="section plan-section" id="plan" aria-labelledby="plan-title">
-      <div class="section-head"><span class="section-index">03 / SHOT LIST</span><h2 id="plan-title">生成拍摄清单</h2><p>写下活动场景，获得通用步骤与相关提醒。</p></div>
+      <div class="section-head"><span class="section-index">04 / SHOT LIST</span><h2 id="plan-title">生成拍摄清单</h2><p>写下活动场景，获得通用步骤与相关提醒。</p></div>
       <form id="plan-form" class="plan-form">
         <label for="scene-input">我要拍摄</label>
         <div class="input-action"><input id="scene-input" name="scene" type="text" placeholder="例如：夜间队列训练、会议、拔河比赛" required><button class="button button-primary" type="submit">生成清单 <span aria-hidden="true">→</span></button></div>
@@ -99,7 +138,7 @@
     </section>
 
     <section class="section review-section" id="review" aria-labelledby="review-title">
-      <div class="section-head"><span class="section-index">04 / PRE-FLIGHT</span><h2 id="review-title">交付前检查</h2><p>根据你已核实的事实给出检查结果。本站不会读取或上传照片。</p></div>
+      <div class="section-head"><span class="section-index">05 / PRE-FLIGHT</span><h2 id="review-title">交付前检查</h2><p>根据你已核实的事实给出检查结果。本站不会读取或上传照片。</p></div>
       <div class="review-layout">
         <form id="review-form" class="review-form">
           <fieldset><legend>画面与信息</legend>
